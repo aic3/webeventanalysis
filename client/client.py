@@ -71,7 +71,7 @@ def runClientScript(client):
 def runClientScriptForDuration(client, duration):
     tsec = 0
     count = 0
-    tstart = datetime.now()
+    tstart = datetime.datetime.now()
     commands = getCommands()    
     cmdlength = len(commands)
 
@@ -84,7 +84,7 @@ def runClientScriptForDuration(client, duration):
             runCommand(client, command)
 
             # update the stats
-            td = datetime.now() - tstart 
+            td = datetime.datetime.now() - tstart 
             tsec = td.days*86400000 + td.seconds*1000 + td.microseconds/1000     
             count = count + 1
             print('Test runtime: {0}'.format(tsec))
@@ -94,8 +94,6 @@ def runClientScriptForDuration(client, duration):
 
 #ex: "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\python.exe" \dev\git\kabs\OdooDev\client.py "http://localhost" "fake@user.com" "" 10 1 1 10000
 if __name__ == "__main__":
-    #runClient()
-    #test()
     runs = 1
     headless = False
     trackevents = False
@@ -106,8 +104,6 @@ if __name__ == "__main__":
     connection_string = ''
 
     # host, username, password, runs, headless, trackevents, duration
-    
-
     if len(sys.argv) > 1:
         host = str(sys.argv[1])
 
@@ -117,7 +113,6 @@ if __name__ == "__main__":
     if len(sys.argv) > 3:
         password = str(sys.argv[3])
     
-
     if len(sys.argv) > 4:
         runs = int(sys.argv[4])
 
