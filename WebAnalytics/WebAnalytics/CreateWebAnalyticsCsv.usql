@@ -1,0 +1,106 @@
+﻿// prior to the execution of this script you must load and register the Newtonsoft.Json.dll and Microsoft.Analytics.Samples.Formats.dll to the data store
+// 1. load the assemblies into your Data Lake under the /assemblies path
+// 2. run the RegisterAssemblies.usql provided in this project
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [Microsoft.Analytics.Samples.Formats];
+
+//ref: https://stackoverflow.com/questions/43114283/parse-json-file-in-u-sql
+//ref: https://msdn.microsoft.com/en-us/azure/data-lake-analytics/u-sql/extractor-parameters-u-sql#delimiter
+// created by the Event Job usign the format /events/data/{date}/{time}
+DECLARE @path string = "/events/data/{date:yyyy}/{date:MM}/{date:dd}/{fileid}.json";
+
+// use 10 second intervals
+DECLARE @interval = 10 * 1000;
+
+// pull each event as a line from the json file using a backspace chaaracter as a delimiter '\0' to prevent line breaks
+@eventsjson = EXTRACT eventjson string,
+                      date DateTime,
+                      fileid string
+                      FROM @path
+    USING Extractors.Text(skipFirstNRows: 0, quoting: false, delimiter: '\0');
+
+// load the JSOn tuple
+@jsonLine = 
+SELECT 
+    Microsoft.Analytics.Samples.Formats.Json.JsonFunctions.JsonTuple(eventjson) AS JSONLine
+FROM @eventsjson;
+
+// extract the JSON fields
+@eventdata =
+    SELECT JSONLine["host"]AS host,
+           JSONLine["title"]AS title,
+           JSONLine["user"]AS user,
+           JSONLine["type"]AS type,
+           DateTime.Parse(JSONLine["start"]) AS start,
+           DateTime.Parse(JSONLine["stop"]) AS stop,
+           double.Parse(JSONLine["duration"]) AS duration,
+           JSONLine["id"]AS id,
+           JSONLine["client"]AS client,
+           JSONLine["description"]AS description
+    FROM @jsonLine;
+
+
+//get this initial id / time records
+@realtime =
+    SELECT s.id,
+        (s.start.Ticks / 10000) AS ticks                                       
+    FROM @eventdata AS s;
+
+//break out the time parts
+@realtimeParts =
+    SELECT r.id,
+           r.ticks,
+           (r.ticks % @interval) AS mod
+    FROM @realtime AS r;
+
+
+//get the units
+@realtimeUnits =
+    SELECT p.id,
+           p.ticks,
+           p.mod,
+           p.ticks - p.mod AS major
+    FROM @realtimeParts AS p;
+
+
+//get the key
+@realtimeKey =
+    SELECT u.id,
+           u.ticks,
+           u.mod,
+           u.major,
+           u.major + (u.mod / @interval) AS key
+    FROM @realtimeUnits AS u;
+
+
+//join the entries to the key
+@entries =
+    SELECT DISTINCT s.id,
+                    s.client AS client,
+                    s.duration AS duration,
+                    s.start.Ticks AS fticks,     
+                    s.start,
+                    s.stop,
+                    rk.ticks,
+                    rk.key,
+                    rk.major,
+                    rk.mod
+    FROM @eventdata AS s
+         INNER JOIN
+             @realtimeKey AS rk
+         ON s.id == rk.id;
+
+// group the number of clients and average duration for each interval
+@stats =
+    SELECT 
+        key,
+        MIN(start) AS start,
+        COUNT(DISTINCT client) AS clients,
+           AVG(duration) AS duration
+    FROM @entries
+    GROUP BY key;
+
+// create the output
+OUTPUT @stats
+TO "/dev/outputs/webanalytics_results.csv"
+USING Outputters.Csv(outputHeader: true, quoting: false);

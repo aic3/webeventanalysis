@@ -1,2 +1,9 @@
 __pycache__/
 .vscode/settings.json
+.vs/
+bin/
+obj/
+[d|D]ebug/
+.suo
+registerassemblies.ScopeWorkDir/
+,user

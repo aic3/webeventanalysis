@@ -1,0 +1,12 @@
+﻿DECLARE @ASSEMBLY_PATH string = "/assemblies/";
+DECLARE @SAMPLES_ASM string = @ASSEMBLY_PATH+"Microsoft.Analytics.Samples.Formats.dll";
+DECLARE @NEWTONSOFT_ASM string = @ASSEMBLY_PATH+"Newtonsoft.Json.dll";
+
+DROP ASSEMBLY IF EXISTS [Newtonsoft.Json];
+CREATE ASSEMBLY [Newtonsoft.Json]
+FROM @NEWTONSOFT_ASM;
+
+
+DROP ASSEMBLY IF EXISTS [Microsoft.Analytics.Samples.Formats];
+CREATE ASSEMBLY [Microsoft.Analytics.Samples.Formats]
+FROM @SAMPLES_ASM;
