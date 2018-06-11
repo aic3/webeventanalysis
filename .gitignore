@@ -6,4 +6,5 @@ obj/
 [d|D]ebug/
 .suo
 registerassemblies.ScopeWorkDir/
-,user
+.user
+*.usqlproj.user
