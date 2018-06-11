@@ -104,30 +104,38 @@ if __name__ == "__main__":
     connection_string = ''
 
     # host, username, password, runs, headless, trackevents, duration
+
+    #host
     if len(sys.argv) > 1:
         host = str(sys.argv[1])
 
+    #username
     if len(sys.argv) > 2:
         username = str(sys.argv[2])
 
+    #password
     if len(sys.argv) > 3:
         password = str(sys.argv[3])
     
+    #runs
     if len(sys.argv) > 4:
         runs = int(sys.argv[4])
 
+    #headless
     if len(sys.argv) > 5:
         headless = bool(int(sys.argv[5]))
 
+    #track events
     if len(sys.argv) > 6:
         trackevents = bool(int(sys.argv[6]))
     
+    #duration
     if len(sys.argv) > 7:
         duration = int(sys.argv[7])
 
     clientid = uuid.uuid4()
 
-    print('Host: {3}, Running {0} time(s), ClientId: {1}, Headless: {2}, Tracking: {4}'.format(runs, clientid, headless, host, trackevents))
+    print('Host: {3}, Running {0} time(s), ClientId: {1}, Headless: {2}, Tracking: {4}, Duration: {5}'.format(runs, clientid, headless, host, trackevents, duration))
     connection_string = getEventHubConnectionString(trackevents)
     if len(host) == 0:
         host = 'http://localhost'
