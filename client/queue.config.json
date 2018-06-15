@@ -1,3 +1,4 @@
 {
-    "connectionstring": "Endpoint=sb://<event hub uri>.servicebus.windows.net/;SharedAccessKeyName=<shared access key name>;SharedAccessKey=<shared access key>;EntityPath=<event hub name>"
+    "connectionstring": "Endpoint=sb://perfomanceevents.servicebus.windows.net/;SharedAccessKeyName=Producer;SharedAccessKey=4bPgeRMsAOMLA9fg8lFHQpo+HhsROiCCoOrIVdIzKF0=;EntityPath=webevents",
+    "connectionstringx": "Endpoint=sb://<event hub uri>.servicebus.windows.net/;SharedAccessKeyName=<shared access key name>;SharedAccessKey=<shared access key>;EntityPath=<event hub name>"
 }
