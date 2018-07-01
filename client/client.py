@@ -92,6 +92,11 @@ def runClientScriptForDuration(client, duration):
             print(e)
             count = 0
 
+def runClient(runs, headless, trackevents, host, username, passowrd, duration, connection_string):
+    clientid = uuid.uuid4()
+
+    print('Host: {3}, Running {0} time(s), ClientId: {1}, Headless: {2}, Tracking: {4}, Duration: {5}'.format(runs, clientid, headless, host, trackevents, duration))
+
 #ex: "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\python.exe" \dev\git\kabs\OdooDev\client.py "http://localhost" "fake@user.com" "" 10 1 1 10000
 if __name__ == "__main__":
     runs = 1
