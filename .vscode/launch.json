@@ -20,6 +20,17 @@
             ]
         },
         {
+            "name": "Docker Container Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/client/docker_run.py",
+            "args": [
+            ],
+            "env":{
+                "req":"{\"runs\": \"1\",\"headless\":\"1\",\"trackevents\":\"1\",\"host\":\"http://eventsweb.eastus.azurecontainer.io\",\"username\":\"username\",\"password\":\"password\",\"duration\":\"0\", \"connection_string\":\"Endpoint=sb://perfomanceevents.servicebus.windows.net/;SharedAccessKeyName=Producer;SharedAccessKey=4bPgeRMsAOMLA9fg8lFHQpo+HhsROiCCoOrIVdIzKF0=;EntityPath=webevents\"}"
+            }
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",

@@ -38,7 +38,7 @@ class PerfClient:
         if self.headless:
             options.add_argument('headless')
 
-        print('Root url: {0}'.format(root_url))    
+        print('Root url: {0}, Chrome Driver: {1}, timeout: {2}'.format(root_url, driver_path, timeout))    
         self.driver = webdriver.Chrome(executable_path=driver_path,chrome_options=options)
         self.root_url = root_url
 

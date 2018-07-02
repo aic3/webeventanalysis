@@ -7,7 +7,7 @@ import json
 
 import PerfClient
 import PerfStat
-
+import platform
 from PerfClient import *
 from PerfStat import *
 
@@ -18,8 +18,14 @@ from selenium.webdriver.support.ui import Select
 
 #load the web driver
 dir_path = os.path.dirname(os.path.realpath(__file__))
-driverPath = os.path.abspath("{0}/{1}".format(dir_path, 'chromedriver.exe'))
+ostype = platform.system()
 
+#default is windows
+driverPath = '/usr/lib/chromium/chromedriver'
+
+# chnage to linux if needed 
+if(ostype == 'Windows'): 
+    driverPath =  os.path.abspath("{0}/{1}".format(dir_path, 'chromedriver.exe'))
 
 def runCommand(client, command):
     start = datetime.datetime.now()
@@ -92,10 +98,27 @@ def runClientScriptForDuration(client, duration):
             print(e)
             count = 0
 
-def runClient(runs, headless, trackevents, host, username, passowrd, duration, connection_string):
+def runClient(runs, headless, trackevents, host, username, password, duration, connection_string):
     clientid = uuid.uuid4()
 
     print('Host: {3}, Running {0} time(s), ClientId: {1}, Headless: {2}, Tracking: {4}, Duration: {5}'.format(runs, clientid, headless, host, trackevents, duration))
+    
+    #create the perfclient
+    client = PerfClient(driverPath, host, username, password, 30, clientid, headless, connection_string)
+
+    try:
+        for i in range(0,runs):
+            try:
+                #run for x amount of runs
+                runClientScript(client)
+                print('Complete: {0}'.format(i+1))
+            except Exception as e:
+                print('Error: {0} {1} {2}'.format(i+1,  sys.exc_info()[0], e))
+
+        #exec the duration param
+        runClientScriptForDuration(client, duration)
+    finally: 
+        client.close()
 
 #ex: "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\python.exe" \dev\git\kabs\OdooDev\client.py "http://localhost" "fake@user.com" "" 10 1 1 10000
 if __name__ == "__main__":
