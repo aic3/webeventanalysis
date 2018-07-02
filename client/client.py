@@ -21,7 +21,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 ostype = platform.system()
 
 #default is windows
-driverPath = '/usr/lib/chromium/chromedriver'
+driverPath = '/usr/bin/chromedriver'
 
 # chnage to linux if needed 
 if(ostype == 'Windows'): 
