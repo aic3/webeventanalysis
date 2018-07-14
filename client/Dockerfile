@@ -10,6 +10,19 @@ RUN apt-get install musl-dev -y
 RUN apt-get install python3-pip -y
 RUN apt-get install openssl -y
 RUN apt-get install libssl-dev -y
+RUN apt-get install wget -y
+RUN apt-get install libxss1 libappindicator1 libindicator7 -y
+RUN apt-get install -f
+RUN apt-get install xvfb -y
+RUN apt-get install imagemagick -y
+RUN apt-get install unzip -y
+RUN apt-get install libglib2.0-0 -y
+RUN apt-get install libnss3 -y
+RUN apt-get install libgconf-2-4 -y
+RUN apt-get install libfontconfig1 -y
+RUN apt-get install chromium-browser -y
+
+
 #RUN sudo apt-get install libffi -y
 #RUN sudo apt-get install libffi-dev -y
 #RUN sudo apt-get install unzip -y
@@ -36,21 +49,17 @@ RUN apt-get install libssl-dev -y
 #  dbus \
 #  ttf-freefont \
 #  mesa-dri-swrast
-RUN apt-get install wget -y
-RUN apt-get install libxss1 libappindicator1 libindicator7 -y
+
 
 #chrome ref: https://askubuntu.com/questions/510056/how-to-install-google-chrome
 #RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 #RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
 #RUN apt-get update 
 #RUN apt-get install google-chrome-stable -y
-RUN apt-get install chromium-browser -y
 
-RUN apt-get install -f
-RUN apt-get install xvfb -y
-RUN apt-get install unzip -y
 
-RUN wget -N http://chromedriver.storage.googleapis.com/2.26/chromedriver_linux64.zip
+
+RUN wget -N https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip
 RUN unzip chromedriver_linux64.zip
 RUN chmod +x chromedriver
 
@@ -87,6 +96,7 @@ RUN pip3 install -r requirements.txt
 # is used by pry.
 #ENV PAGER="more"
 
+ENV VNC_NO_PASSWORD=1
 ENV CHROME_BIN=/opt/google/chrome
 ENV CHROME_PATH=/opt/google/
 ENV PATH="/usr/bin/chromedriver:${PATH}"

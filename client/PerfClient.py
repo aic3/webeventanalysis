@@ -36,10 +36,17 @@ class PerfClient:
         options = webdriver.ChromeOptions()
         self.headless = headless
         if self.headless:
-            options.add_argument('headless')
+            # linux chromium argumets
+            options.set_headless(headless=True)
+            options.add_argument('--enable-logging')
+            options.add_argument('--v=10000')
+            options.add_argument('--no-sandbox')
+            #options.add_argument('--headless')
+            #options.add_argument('--no-sandbox')
 
         print('Root url: {0}, Chrome Driver: {1}, timeout: {2}'.format(root_url, driver_path, timeout))    
-        self.driver = webdriver.Chrome(executable_path=driver_path,chrome_options=options)
+        #service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+        self.driver = webdriver.Chrome(executable_path=driver_path,chrome_options=options,service_args=['--log-path=/tmp/chromedriver.log'])
         self.root_url = root_url
 
         self.timeout = timeout
