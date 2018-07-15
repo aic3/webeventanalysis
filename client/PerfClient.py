@@ -46,7 +46,8 @@ class PerfClient:
 
         print('Root url: {0}, Chrome Driver: {1}, timeout: {2}'.format(root_url, driver_path, timeout))    
         #service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
-        self.driver = webdriver.Chrome(executable_path=driver_path,chrome_options=options,service_args=['--log-path=/tmp/chromedriver.log'])
+        self.driver = webdriver.Chrome(executable_path=driver_path,chrome_options=options)
+        #self.driver = webdriver.Chrome(executable_path=driver_path,chrome_options=options)
         self.root_url = root_url
 
         self.timeout = timeout
