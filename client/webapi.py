@@ -1,10 +1,14 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 from json import dumps
+from PerfClientParams import PerfClientParams
 #from flask.ext.jsonpify import jsonify
 #import jsonify
 
 import client 
+import json
+import datetime
+import PerfStat
 
 app = Flask(__name__)
 api = Api(app)
@@ -28,6 +32,19 @@ def get():
     #start the cient
     client.runClient(int(runs), True,  True, host, '', '', int(duration), connection_string)
     return '{0}'.format(True)
+    
+@app.route("/run", methods=['POST'])
+def run():
+    start = datetime.datetime.now()
+    p = request.get_json()
+    params = PerfClientParams(**p)
+
+    client.runClient(params.runs, True, True, params.host, params.username, params.password, params.duration, params.connection_string)
+    end = datetime.datetime.now()
+    
+    td = end - start
+    return "{0}".format(PerfStat.timedelta_milliseconds(td))
+
 
 if __name__ == '__main__':
-     app.run(port='9999')
+     app.run(port='9999', host='0.0.0.0')

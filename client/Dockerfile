@@ -103,4 +103,5 @@ ENV PATH="/usr/bin/chromedriver:${PATH}"
 ENV CHROME_HEADLESS=1
 
 EXPOSE 9999
-CMD [ "python3", "/usr/source/app/docker_run.py" ]
+#CMD [ "python3", "/usr/source/app/docker_run.py" ]
+CMD [ "python3", "/usr/source/app/webapi.py" ]

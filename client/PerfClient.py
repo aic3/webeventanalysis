@@ -93,6 +93,7 @@ class PerfClient:
         elif command == 'type':
             el = self.findElement(target)
 
+            #optional: make the username and password fields configurable values
             if target == 'id=username' or target == 'id=login':
                 el.send_keys(self.username)
             elif target == 'id=password' or target == 'id=pass':
