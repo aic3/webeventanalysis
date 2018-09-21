@@ -23,7 +23,7 @@ ostype = platform.system()
 #default is windows
 driverPath = '/usr/bin/chromedriver'
 
-# chnage to linux if needed 
+# change to linux if needed 
 if(ostype == 'Windows'): 
     driverPath =  os.path.abspath("{0}/{1}".format(dir_path, 'chromedriver.exe'))
 
