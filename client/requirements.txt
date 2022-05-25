@@ -108,7 +108,7 @@ msrestazure==0.4.31
 oauthlib==2.1.0
 pipreqs==0.4.9
 pycparser==2.18
-PyJWT==1.6.4
+PyJWT==2.4.0
 pylint==1.9.1
 python-dateutil==2.7.3
 pytz==2018.5
