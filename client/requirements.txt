@@ -72,7 +72,7 @@ azure-nspkg==2.0.0
 azure-servicebus==0.21.1
 azure-servicefabric==6.1.2.9
 azure-servicemanagement-legacy==0.20.6
-azure-storage-blob==1.1.0
+azure-storage-blob==12.13.1
 azure-storage-common==1.1.0
 azure-storage-file==1.1.0
 azure-storage-nspkg==3.0.0
